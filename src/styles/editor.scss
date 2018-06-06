@@ -1,0 +1,34 @@
+@import "./config.scss";
+@import "./menu.scss";
+@import "./text.scss";
+
+.#{$editor} {
+  height: 400px;
+  color: $color;
+  position: relative;
+
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: $title-color;
+  }
+
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: $title-color;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+    color: $title-color;
+  }
+
+  & * {
+    box-sizing: content-box !important;
+  }
+
+  & strong,
+  & b {
+    font-weight: bold !important;
+  }
+
+  & i {
+    font-style: italic !important;
+  }
+}

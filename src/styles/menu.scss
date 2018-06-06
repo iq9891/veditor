@@ -1,0 +1,20 @@
+.#{$prefix}menu {
+  position: relative;
+  width: 100vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 38px;
+  line-height: 30px;
+  background: $menu-color;
+  display: flex;
+
+  &-link {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+  }
+
+  &-svg {
+    display: inline-block;
+  }
+}
