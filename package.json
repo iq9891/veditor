@@ -17,6 +17,10 @@
     "build:pro": "export BABEL_ENV=production && export NODE_ENV=production && webpack --config build/webpack.build.config.js",
     "doc": "./node_modules/.bin/jsdoc -c .jsdoc.js",
     "changelog": "./node_modules/.bin/conventional-changelog -p jscs -i changelog.md -s -r 0",
+    "eslint": "eslint --ext .js,.vue site emheader --fix",
+    "stylelint": "stylelint site/**/*.scss emheader/**/*.scss",
+    "lint": "npm run eslint && npm run stylelint",
+    "lint-staged": "lint-staged",
     "prepublishOnly": "npm run build:test && npm run build:pro"
   },
   "repository": {
@@ -84,5 +88,23 @@
     "Android >= 4.0",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "lint-staged": {
+    "src/**/*.vue": [
+      "npm run eslint"
+    ],
+    "src/**/*.js": [
+      "npm run eslint"
+    ],
+    "src/**/*.scss": [
+      "npm run stylelint"
+    ]
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "dependencies": {
+    "lint-staged": "^7.2.0",
+    "pre-commit": "^1.2.2"
+  }
 }
