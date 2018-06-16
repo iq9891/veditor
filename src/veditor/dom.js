@@ -80,7 +80,7 @@ const XDom = class {
         if (parsed) {
           this[0] = document.createElement(parsed[1]);
           this.length = 1;
-        // 处理 $('<div><p>xeditor</p></div>') $('<br>')
+        // 处理 $('<div><p>veditor</p></div>') $('<br>')
         } else {
           const rAttrTag = (/<([a-zA-Z]+)\s*[^><]*>/g);
           const rContent = />(\s+.+\s+|.+)</;
@@ -191,10 +191,10 @@ const XDom = class {
    * @param {Object} params 可以设置多个属性
    * @private
    * @example
-   $('div').attr('class', 'xeditor');
-   $('div').attr('class'); // 'xeditor'
+   $('div').attr('class', 'veditor');
+   $('div').attr('class'); // 'veditor'
    $('div').attr({
-   class: 'xeditor'
+   class: 'veditor'
  });
    * @returns {Object} XDOM 对象
    */
@@ -231,7 +231,7 @@ const XDom = class {
    * @param {String} name 添加的 class
    * @private
    * @example
-   $('div').addClass('xeditor')
+   $('div').addClass('veditor')
    * @returns {String} 内容
    */
   addClass(name) {
@@ -259,7 +259,7 @@ const XDom = class {
    * @param {String} name 添加的 class
    * @private
    * @example
-   $('div').removeClass('xeditor')
+   $('div').removeClass('veditor')
    * @returns {String} 内容
    */
   removeClass(name) {
@@ -279,7 +279,7 @@ const XDom = class {
    * @param {String} html 要设置的 html
    * @private
    * @example
-   $('div').html('<div><p>xeditor</p></div>')
+   $('div').html('<div><p>veditor</p></div>')
    * @returns {String} 内容
    */
   html(html) {
@@ -296,7 +296,7 @@ const XDom = class {
    * @param {String} text 要设置的 text
    * @private
    * @example
-   $('div').text('<div><p>xeditor</p></div>')
+   $('div').text('<div><p>veditor</p></div>')
    * @returns {String} 内容
    */
   text(text) {
@@ -313,7 +313,7 @@ const XDom = class {
    * @param {String} value 要设置的 value
    * @private
    * @example
-   $('div').val('xeditor')
+   $('div').val('veditor')
    * @returns {String} 内容
    */
   val(value) {
@@ -330,7 +330,7 @@ const XDom = class {
    * @param {Object} child 要添加的 XDom 对象
    * @private
    * @example
-   $('div').append($('<div><p>xeditor</p></div>'))
+   $('div').append($('<div><p>veditor</p></div>'))
    * @returns {Object} XDOM 对象
    */
   append(child) {
@@ -347,7 +347,7 @@ const XDom = class {
    * @param {Object} child 要添加的 XDom 对象
    * @private
    * @example
-   $('div').before($('<div><p>xeditor</p></div>'))
+   $('div').before($('<div><p>veditor</p></div>'))
    * @returns {Object} XDOM 对象
    */
   before(child) {

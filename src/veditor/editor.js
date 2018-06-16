@@ -1,5 +1,6 @@
 // XDom 主类
 import $ from './dom';
+import browser from './tools/browser';
 import config from './config';
 import Menu from './menus';
 import Text from './text';
@@ -25,8 +26,10 @@ const VEditor = class {
     this.uid = editorId++;
     this.$editor = $(selector);
     this.cfg = config;
-    this.code = false; // 源代码
-    this.handle = false; // 复制|剪切
+    this.node = null; // 点击的节点，用于元素操作之用，比如加粗
+    this.browser = browser(); // 浏览器 UA
+    this.nowNode = null; // 点击之后光标是否在节点中
+    this.isMobile = this.browser.isMobile;
     // 获取之前的内容
     this.childrens = this.getChilds();
   }
@@ -49,6 +52,8 @@ const VEditor = class {
       // 新建一行
       this.text.newline();
     }
+    // 事件绑定
+    this.bind();
   }
   /**
    * 设置层级
@@ -121,6 +126,14 @@ const VEditor = class {
   */
   el() {
     return this.$editor;
+  }
+
+  bind() {
+    window.addEventListener('resize', () => {
+      this.browser = browser(); // 浏览器 UA
+      this.isMobile = this.browser.isMobile;
+    }, true);
+    document.oncontextmenu = () => false;
   }
 };
 /**

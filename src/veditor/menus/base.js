@@ -3,7 +3,7 @@ import $ from '../dom';
 import svgFn from '../tools/svg';
 /**
 * XMenuBase 对象
-* bold，inserthorizontalrule，italic，justifycenter，justifyfull，justifyleft，justifyright，underline 继承
+* bold，inserthorizontalrule，italic，underline 继承
 * @example
 * new XMenuBase(editor);
 */
@@ -13,14 +13,12 @@ const XMenuBase = class {
    *
    * @param {Object} editor 编辑器的对象
    * @param {String} type 什么类型，如 bold
-   * @param {Boolean} selected 需不需要选中，默认不需要
    */
-  constructor(editor, type, selected = false) {
+  constructor(editor, type) {
     this.editor = editor;
     this.$editor = editor.$editor;
     this.cfg = editor.cfg;
     this.type = type;
-    this.selected = selected;
     // 初始化
     this.create();
   }
@@ -34,17 +32,13 @@ const XMenuBase = class {
 
   bind() {
     const { type, editor } = this;
-    $(`#ve-${type}${editor.uid}`).on('click', () => {
-      const { text, selection, code } = editor;
-      // 如果是源代码
-      if (code) {
-        return;
-      }
+    $(`#ve-${type}${editor.uid}`).on(editor.isMobile ? 'touchend' : 'click', () => {
+      const { text, selection } = editor;
       // 只有选中了才有效果
-      // insertHorizontalRule justifyLeft justifyCenter
-      // justifyRight justifyFull insertOrderedList insertUnorderedList
+      // insertHorizontalRule
+      // insertOrderedList insertUnorderedList
       // undo redo removeFormat
-      if (!selection.isSelectionEmpty() || !this.selected) {
+      if (!selection.isSelectionEmpty()) {
         // bold italic underline subscript superscript
         // 加粗操作
         text.handle(type);
@@ -55,28 +49,11 @@ const XMenuBase = class {
   // 是否是选中
   isActive() {
     const { type, editor } = this;
-    if (type.indexOf('justify') > -1) {
-      const justifys = [
-        'justifycenter', // 两端对齐
-        'justifyfull', // 两端对齐
-        'justifyleft', // 左对齐
-        'justifyright', // 右对齐
-      ];
-      justifys.forEach((justify) => {
-        const $item = $(`#ve-${justify}${editor.uid}`);
-        if (document.queryCommandState(justify)) {
-          $item.addClass('ve-menu-link-active');
-        } else {
-          $item.removeClass('ve-menu-link-active');
-        }
-      });
+    const $item = $(`#ve-${type}${editor.uid}`);
+    if (document.queryCommandState(type)) {
+      $item.addClass('ve-menu-link-active');
     } else {
-      const $item = $(`#ve-${type}${editor.uid}`);
-      if (document.queryCommandState(type)) {
-        $item.addClass('ve-menu-link-active');
-      } else {
-        $item.removeClass('ve-menu-link-active');
-      }
+      $item.removeClass('ve-menu-link-active');
     }
   }
 };

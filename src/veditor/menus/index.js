@@ -1,6 +1,7 @@
 // XDom 主类
 import $ from '../dom';
 import list from './list';
+import svgFn from '../tools/svg';
 /**
 * XMenu 对象
 * @example
@@ -18,17 +19,13 @@ const XMenu = class {
     this.cfg = editor.cfg;
     this.menucfg = this.cfg.menucfg || {};
     const {
-      often = {
-        text: '',
-      },
-      high = {
-        text: '',
-        menus: [],
-      },
+      often = [],
+      high = [],
     } = this.menucfg;
-    this.oftenText = often.text || '';
     this.highText = high.text || '';
-    this.highMenus = high.menus || [];
+    this.oftenMenus = often || [];
+    this.highMenus = high || [];
+    this.moreStatus = this.highMenus.length;
     // 当前菜单的状态, 用于图片那里
     this.status = '';
     this.btns = [];
@@ -47,15 +44,13 @@ const XMenu = class {
     const { prefix, menu } = name;
     const { uid } = this.editor;
 
-    this.$menuTem = $(`<div id="ve-menu${uid}" class="ve-menu${menu ? ` ${prefix}${menu}` : ''}"></div>`);
+    this.$menuTem = $(`<div id="ve-menu${uid}" class="ve-menu${menu ? ` ${prefix}${menu}` : ''}${this.moreStatus ? ' ve-menu-more' : ''}"></div>`);
     this.$editor.append(this.$menuTem);
 
     this.$menu = $(`#ve-menu${uid}`);
     // 如果有配置
-    if (this.oftenText && this.highText && this.highMenus.length) {
-      this.$oftenTem = $(`<div id="ve-menu-often${uid}" class="ve-menu-often${menu ? ` ${prefix}${menu}-often` : ''}">
-        <h2 class="ve-menu-title${menu ? ` ${prefix}-menu-title` : ''}">${this.oftenText}</h2>
-      </div>`);
+    if (this.moreStatus) {
+      this.$oftenTem = $(`<div id="ve-menu-often${uid}" class="ve-menu-often${menu ? ` ${prefix}${menu}-often` : ''}"></div>`);
       this.$menu.append(this.$oftenTem);
       this.$often = $(`#ve-menu-often${uid}`);
 
@@ -73,7 +68,7 @@ const XMenu = class {
    */
   renderBtns() {
     // 如果有配置
-    if (this.oftenText && this.highText && this.highMenus.length) {
+    if (this.moreStatus) {
       const highTems = [];
       const oftenTems = [];
       this.cfg.menus.forEach((menu) => {
@@ -87,8 +82,12 @@ const XMenu = class {
         }
         this.btns.push(menuBtn);
       });
+      // 添加更多按钮
+      this.renderDownBtn(oftenTems);
       this.$often.append(oftenTems);
       this.$high.append(highTems);
+      // 更多按钮绑定事件
+      this.bindDownEvent();
     } else {
       const tems = [];
       this.cfg.menus.forEach((menu) => {
@@ -104,6 +103,37 @@ const XMenu = class {
       btn.bind();
     });
   }
+
+  renderDownBtn(oftenTems) {
+    const { editor } = this;
+    const $more = $(`<a id="ve-menu-down${editor.uid}" href="javascript:void('更多');" title="更多" class="ve-menu-down"><?xml version="1.0" encoding="UTF-8"?></a>`);
+    svgFn($more, 'down');
+    oftenTems.push($more[0]);
+  }
+
+  bindDownEvent() {
+    const { uid, isMobile } = this.editor;
+    this.$down = $(`#ve-menu-down${uid}`);
+    let isMore = false;
+    this.$down.on(isMobile ? 'touchend' : 'click', () => {
+      if (isMore) {
+        this.downFn();
+      } else {
+        this.upFn();
+      }
+      isMore = !isMore;
+    });
+  }
+  // 更多的时候向下函数
+  downFn() {
+    this.$high.addClass('ve-menu-high-active');
+    this.$down.addClass('ve-menu-down-active');
+  }
+  // 更多的时候向上函数
+  upFn() {
+    this.$high.removeClass('ve-menu-high-active');
+    this.$down.removeClass('ve-menu-down-active');
+  }
   // 检测哪个是激活
   testActive() {
     this.btns.forEach((btn) => {
@@ -111,19 +141,6 @@ const XMenu = class {
         btn.isActive();
       }
     });
-  }
-  // 设置|取消禁用状态
-  testDisable() {
-    const $link = $('.ve-menu-link');
-    const $select = $('.ve-select');
-    if (this.editor.code) {
-      $link.addClass('ve-menu-link-disable');
-      $select.addClass('ve-select-disable');
-      $('#ve-code1').removeClass('ve-menu-link-disable');
-    } else {
-      $link.removeClass('ve-menu-link-disable');
-      $select.removeClass('ve-select-disable');
-    }
   }
   // 删除
   remove() {

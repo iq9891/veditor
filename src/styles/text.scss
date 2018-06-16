@@ -11,7 +11,7 @@
   }
 
   &-wrap {
-    border: 1px solid $border-color;
+    border: 1px solid $menu-color;
     border-top: none;
     background: $bg-main;
     height: calc(100% - 35px);
@@ -26,10 +26,7 @@
   }
 
   &-img {
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 8px $blue;
-    }
+    width: 100%;
+    display: block;
   }
 }

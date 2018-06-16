@@ -9,6 +9,7 @@ import Upload from './upload';
 const XText = class {
   constructor(editor) {
     this.editor = editor;
+    this.isMobile = this.editor.isMobile;
     this.$editor = editor.$editor;
     this.cfg = editor.cfg;
     // 初始化内容
@@ -29,6 +30,47 @@ const XText = class {
     this.$wrap = $(`#ve-wrap${this.editor.uid}`);
   }
   /**
+  * 绑定事件
+  */
+  bind() {
+    // 实时保存选取
+    this.saveRangeRealTime();
+    // 清空之后
+    this.empty();
+    // 绑定事件
+    this.eventFn();
+  }
+  /**
+  * 清空之后
+  */
+  empty() {
+    this.$text.on('keydown', (e = window.event) => {
+      if (e.keyCode !== 8) {
+        return;
+      }
+      const txtHtml = this.$text.html().toLowerCase().trim();
+
+      if (txtHtml === '<p><br></p>') {
+        e.preventDefault();
+      }
+    });
+  }
+  /**
+  * 绑定事件
+  */
+  eventFn() {
+    // 点击选中操作的文字
+    this.$text.on(this.isMobile ? 'touchend' : 'click', () => {
+      const range = this.editor.selection.getRange();
+      this.editor.node = this.editor.selection
+        .getSelectionContainerElem(range);
+      if (this.editor.node && this.editor.node.length) {
+        console.log('text click node', this.editor.node);
+        this.editor.selection.selectText(this.editor.node);
+      }
+    });
+  }
+  /**
   * 新建一行 <p><br/></p>
   * 下面内容区
   */
@@ -39,6 +81,7 @@ const XText = class {
     if (!$children.length) {
       this.$line1 = $('<p>这里是内容</p>');
       this.$text.append(this.$line1);
+      this.editor.selection.createRangeByElem(this.$line1[0]);
       this.cursorEnd();
     }
   }
@@ -70,15 +113,19 @@ const XText = class {
   */
   addPTag(childrens) {
     const childs = [];
-    childrens.forEach((cds) => {
-      if (cds.tagName !== 'P') {
-        const $p = $('<p></p>');
-        $p.append([cds]);
-        childs.push($p[0]);
-      } else {
-        childs.push(cds);
-      }
-    });
+    if (!childrens || !childrens.length) {
+      childs.push($('<p><br></p>')[0]);
+    } else {
+      const $p = $('<p></p>');
+      childrens.forEach((cds) => {
+        if (cds.tagName !== 'P') {
+          $p.append([cds]);
+          childs.push($p[0]);
+        } else {
+          childs.push(cds);
+        }
+      });
+    }
     return childs;
   }
   /**
@@ -101,24 +148,10 @@ const XText = class {
       range.select();
     }
   }
-  /**
-  * 绑定事件
-  */
-  bind() {
-    // 实时保存选取
-    this.saveRangeRealTime();
-    // 处理 tab 键
-    this.tab();
-    // 清空之后
-    this.empty();
-    if (this.editor.cfg.drag.open) {
-      // 拖拽粘贴
-      this.dragFn();
-    }
-  }
   // 实时保存选取
   saveRangeRealTime() {
     const $textElem = this.$text;
+    const { isMobile } = this.editor;
 
     // 保存当前的选区
     const saveRange = () => {
@@ -130,93 +163,17 @@ const XText = class {
     };
     // 按键后保存
     $textElem.on('keyup', saveRange);
-    $textElem.on('mousedown', () => {
-      // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
-      $textElem.on('mouseleave', saveRange);
-    });
-    $textElem.on('mouseup', () => {
-      saveRange();
-      // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
-      $textElem.off('mouseleave', saveRange);
-    });
-  }
-  /**
-  * 处理 tab 键
-  */
-  tab() {
-    this.$text.on('keydown', (e = window.event) => {
-      if (e.keyCode !== 9) {
-        return;
-      }
-      const { selection } = this.editor;
-      // 获取 选区的 $Elem
-      const $selectionElem = selection.getSelectionContainerElem();
-      if (!$selectionElem) {
-        return;
-      }
-      const $parentElem = $selectionElem.parent();
-      const selectionNodeName = $selectionElem.getNodeName();
-      const parentNodeName = $parentElem.getNodeName();
-
-      if (selectionNodeName === 'CODE' && parentNodeName === 'PRE') {
-        // <pre><code> 里面
-        selection.insertHTML('    ');
-      } else {
-        // 普通文字
-        selection.insertHTML('&nbsp;&nbsp;&nbsp;&nbsp;');
-      }
-
-      e.preventDefault();
-    });
-  }
-  /**
-  * 清空之后
-  */
-  empty() {
-    this.$text.on('keydown', (e = window.event) => {
-      if (e.keyCode !== 8) {
-        return;
-      }
-      const txtHtml = this.$text.html().toLowerCase().trim();
-
-      if (txtHtml === '<p><br></p>') {
-        e.preventDefault();
-      }
-    });
-  }
-  // 拖拽粘贴
-  dragFn() {
-    // 进入编辑器
-    this.$editor.on('dragenter', (e = window.event) => {
-      this.createDrag();
-      e.stopPropagation();
-      e.preventDefault();
-    });
-    // 移出编辑器
-    $(document).on('dragenter', (e = window.event) => {
-      this.removeDrag();
-      e.stopPropagation();
-      e.preventDefault();
-    });
-    // 进入内容页面
-    this.$text.on('dragenter', (e = window.event) => {
-      this.editDragText(this.editor.cfg.drag.drop);
-      e.stopPropagation();
-      e.preventDefault();
-    });
-    // 离开
-    this.$text.on('dragleave', (e = window.event) => {
-      e.stopPropagation();
-      e.preventDefault();
-    }, false);
-    // 释放
-    this.$text.on('drop', (e = window.event) => {
-      e.stopPropagation();
-      e.preventDefault();
-
-      this.handleFiles(e.dataTransfer.files, this);
-      this.removeDrag();
-    }, false);
+    if (isMobile) {
+      $textElem.on('mousedown', () => {
+        // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
+        $textElem.on('mouseleave', saveRange);
+      });
+      $textElem.on('mouseup', () => {
+        saveRange();
+        // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
+        $textElem.off('mouseleave', saveRange);
+      });
+    }
   }
   // 处理拖拽文件
   handleFiles(files, self) {
@@ -259,35 +216,6 @@ const XText = class {
       // 可以多次操作
       selection.saveRange();
       selection.restoreSelection();
-    }
-  }
-  // 创建拖拽
-  createDrag() {
-    const { uid } = this.editor;
-    if (!this.$drag) {
-      this.$editor.append($(`<div id="xe-drag${uid}" class="xe-drag">
-        <p id="xe-drag-text${uid}" class="xe-drag-text"></p>
-      </div>`));
-      this.$drag = $(`#xe-drag${uid}`);
-      this.$dragText = $(`#xe-drag-text${uid}`);
-      this.editDragText();
-    }
-  }
-  // 创建拖拽
-  removeDrag() {
-    if (this.$drag && this.$drag.length > 0) {
-      this.$drag.remove();
-      this.$drag = null;
-      this.$dragText = null;
-    }
-  }
-  // 创建拖拽
-  editDragText(text = this.editor.cfg.drag.enter) {
-    if (this.$dragText && this.$dragText.length > 0) {
-      this.$dragText.html(text);
-    } else {
-      this.createDrag();
-      this.editDragText(this.editor.cfg.drag.drop);
     }
   }
 };

@@ -140,6 +140,17 @@ const XSelection = class {
       range.pasteHTML(html);
     }
   }
+
+  selectText(element) {
+    console.log(element, 'element');
+    if (element.length) {
+      const text = element[0];
+      const range = this.getRange();
+      if (range) {
+        range.selectNodeContents(text);
+      }
+    }
+  }
 };
 /**
  * XSelection 模块.
