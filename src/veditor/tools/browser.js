@@ -21,7 +21,7 @@ export default () => {
   const isQQBrowser = /QQBrowser/i.test(ua);
   const isMaxthon = /Maxthon/i.test(ua);
   const isIE = /compatible/i.test(ua) && /MSIE/i.test(ua);
-  console.log(ua);
+
   const isMobile = isAndroid || isBlackBerry || isWindowPhone || isIOS;
   let os = 'pc';
   if (isAndroid) os = 'android';

@@ -65,7 +65,6 @@ const XText = class {
       this.editor.node = this.editor.selection
         .getSelectionContainerElem(range);
       if (this.editor.node && this.editor.node.length) {
-        console.log('text click node', this.editor.node);
         this.editor.selection.selectText(this.editor.node);
       }
     });

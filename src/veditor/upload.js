@@ -17,9 +17,6 @@ class Upload {
       }
       reader.onload = () => {
         inset(reader.result, self, isImage);
-        if (self.removeDialog) {
-          self.removeDialog();
-        }
       };
     });
   }
@@ -57,8 +54,6 @@ class Upload {
                 error(err, response, files[now]);
               },
             });
-          } else if (self.removeDialog) {
-            self.removeDialog();
           }
         };
         recursionAjax(files.length - 1);

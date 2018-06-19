@@ -28,7 +28,6 @@ const VEditor = class {
     this.cfg = config;
     this.node = null; // 点击的节点，用于元素操作之用，比如加粗
     this.browser = browser(); // 浏览器 UA
-    this.nowNode = null; // 点击之后光标是否在节点中
     this.isMobile = this.browser.isMobile;
     // 获取之前的内容
     this.childrens = this.getChilds();
@@ -58,10 +57,11 @@ const VEditor = class {
   /**
    * 设置层级
    *
+   * @param {Number} index 层级数
    * @returns {}
    */
-  setIndex() {
-    this.$editor.css('zIndex', this.cfg.zindex);
+  setIndex(index) {
+    this.$editor.css('zIndex', index || this.cfg.zindex);
   }
   /**
    * 配置编辑器

@@ -142,7 +142,6 @@ const XSelection = class {
   }
 
   selectText(element) {
-    console.log(element, 'element');
     if (element.length) {
       const text = element[0];
       const range = this.getRange();
