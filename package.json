@@ -1,6 +1,6 @@
 {
   "name": "veditor",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "移动端富文本编辑器",
   "main": "dist/veditor.js",
   "unpkg": "dist/veditor.js",
