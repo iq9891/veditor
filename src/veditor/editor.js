@@ -122,6 +122,13 @@ const VEditor = class {
   }
   /**
   * 设置里面内容
+  * @return {Object} html 内容
+  */
+  getHtml() {
+    return this.text.getHtml();
+  }
+  /**
+  * 设置里面内容
   * @return {Object} 编辑器对象
   */
   el() {

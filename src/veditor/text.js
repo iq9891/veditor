@@ -93,6 +93,13 @@ const XText = class {
     this.cursorEnd();
   }
   /**
+  * 获取内容
+  * @return {String} html 内容
+  */
+  getHtml() {
+    return this.$text.html();
+  }
+  /**
   * 新建一行 <p><br/></p>
   * @param {String} html 内容
   */
