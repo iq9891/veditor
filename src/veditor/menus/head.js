@@ -12,7 +12,7 @@ class XMenuHead extends Base {
    * @param {Object} editor 编辑器的对象
    */
   constructor(editor) {
-    super(editor, 'head', true);
+    super(editor, 'head');
   }
 
   bind() {
@@ -35,16 +35,12 @@ class XMenuHead extends Base {
   isActive() {
     const { type, editor } = this;
     const $item = $(`#ve-${type}${editor.uid}`);
-    const $itemBold = $(`#ve-bold${editor.uid}`);
     const { selection } = editor;
     const $ele = selection.getSelectionContainerElem(selection.getRange());
-    console.log($itemBold, '$itemBold');
     if ($ele.length && /H/.test($ele[0].tagName)) {
       $item.addClass('ve-menu-link-active');
-      $itemBold.addClass('ve-menu-link-active');
     } else {
       $item.removeClass('ve-menu-link-active');
-      $itemBold.removeClass('ve-menu-link-active');
     }
   }
 }

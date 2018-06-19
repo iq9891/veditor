@@ -1,6 +1,6 @@
 // XDom 主类
 import $ from '../dom';
-import list from './list';
+import list from './config';
 import svgFn from '../tools/svg';
 /**
 * XMenu 对象

@@ -7,6 +7,8 @@ export default {
     'italic', // 倾斜
     'image', // 插入图像
     'head', // 标题
+    'insertUnorderedList', // 列表
+    'forecolor', //文字颜色
   ],
   lang: {
     bold: '加粗',
@@ -14,7 +16,10 @@ export default {
     italic: '倾斜',
     underline: '下划线',
     head: '标题', // 标题
+    insertUnorderedList: '列表', //列表
+    forecolor: '文字颜色', //文字颜色
   },
+  color: '#ff4949',
   head: {
     size: 'h3', // 标题级别
   },

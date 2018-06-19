@@ -61,4 +61,15 @@
   & i {
     font-style: italic !important;
   }
+
+  & ul {
+    display: block !important;
+    list-style-type: disc !important;
+    margin-left: 10px !important;
+    padding-left: 20px !important;
+  }
+
+  & ul li {
+    display: list-item !important;
+  }
 }

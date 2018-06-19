@@ -34,13 +34,7 @@ const XMenuBase = class {
     const { type, editor } = this;
     $(`#ve-${type}${editor.uid}`).on(editor.isMobile ? 'touchend' : 'click', () => {
       const { text, selection } = editor;
-      // 只有选中了才有效果
-      // insertHorizontalRule
-      // insertOrderedList insertUnorderedList
-      // undo redo removeFormat
       if (!selection.isSelectionEmpty()) {
-        // bold italic underline subscript superscript
-        // 加粗操作
         text.handle(type);
         this.isActive();
       }

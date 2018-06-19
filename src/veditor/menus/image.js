@@ -13,7 +13,7 @@ class XMenuImage extends Base {
    * @param {Object} editor 编辑器的对象
    */
   constructor(editor) {
-    super(editor, 'image', true);
+    super(editor, 'image');
     this.now = 0;
     // 图片点击记录
     this.$selectedImg = null;

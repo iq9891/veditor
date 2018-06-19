@@ -11,7 +11,7 @@ class XMenuUnderline extends Base {
    * @param {Object} editor 编辑器的对象
    */
   constructor(editor) {
-    super(editor, 'underline', true);
+    super(editor, 'underline');
   }
 }
 /**
