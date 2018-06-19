@@ -64,6 +64,12 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+function outname() {
+  var name = pkg.name.split('/');
+  name = name && name.length > 1 ? name[1] : name;
+  return name;
+}
+
 module.exports = merge(webpackBaseConfig, {
   entry,
   devServer: {
@@ -75,7 +81,7 @@ module.exports = merge(webpackBaseConfig, {
   output: {
     path: path.resolve(__dirname, '../'+dist),
     publicPath: '/'+ dist +'/',
-    filename: pkg.name + (isPro ? '.min' : '') +'.js',
+    filename: outname() + (isPro ? '.min' : '') +'.js',
     // library: pkg.name,
     libraryTarget: 'umd',
     umdNamedDefine: true
