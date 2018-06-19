@@ -10,6 +10,8 @@ var env = config.build.env;
 var isPro = env.NODE_ENV === '"production"';
 var isDev = env.NODE_ENV === '"development"';
 var dist = ''; // 生成的文件夹目录是可以配的，根据环境的不同生成的文件夹不同
+// 公共的 banner
+var banner = require( './banner' )();
 
 var entry = {
   main: ['./src/veditor/index.js']
@@ -29,9 +31,7 @@ if (isDev) {
   dist = config.build.dist;
 }
 // 注入内容
-var oTime = new Date();
-var oAllTime = oTime.getFullYear() + '-' + (oTime.getMonth()+1) + '-' + oTime.getDate() + ' ' + oTime.getHours() + ':' + oTime.getMinutes() + ':' + oTime.getSeconds();
-plugins.push(new webpack.BannerPlugin('@ license 李梦龙\n@ version '+ pkg.version +'\n@ time '+ oAllTime));
+plugins.push(new webpack.BannerPlugin( banner ));
 
 if (isDev) {
   plugins.push(new webpack.HotModuleReplacementPlugin());
