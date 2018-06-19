@@ -1,5 +1,5 @@
 {
-  "name": "veditor",
+  "name": "@iq9891/veditor",
   "version": "0.0.1-alpha",
   "description": "移动端富文本编辑器",
   "main": "dist/veditor.js",
