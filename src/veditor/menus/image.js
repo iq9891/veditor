@@ -29,7 +29,7 @@ class XMenuImage extends Base {
     this.$item.append($file);
     this.$file = $(`#ve-menu-file${uid}`);
     // 添加上传文件按钮
-    this.$file.on('input', (ev) => {
+    this.$file.on('change', (ev) => {
       editor.text.$text.append(editor.text.addPTag());
       editor.text.cursorEnd();
       editor.text.handleFiles(ev.target.files, this);

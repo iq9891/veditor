@@ -57,6 +57,7 @@ const XSelection = class {
       // 是编辑内容之内的
       this.curRange = range;
     }
+    range.setStart(this.getSelectionContainerElem(this.curRange)[0], 0);
   }
   /**
   * 根据 $Elem 设置选区

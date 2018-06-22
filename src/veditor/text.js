@@ -60,13 +60,11 @@ const XText = class {
   */
   eventFn() {
     // 点击选中操作的文字
-    this.$text.on(this.isMobile ? 'touchend' : 'click', () => {
-      const range = this.editor.selection.getRange();
-      this.editor.node = this.editor.selection
-        .getSelectionContainerElem(range);
-      if (this.editor.node && this.editor.node.length) {
-        this.editor.selection.selectText(this.editor.node);
-      }
+    this.$text.on('blur', () => {
+      this.editor.$editor.removeClass('ve-focus');
+    });
+    this.$text.on('focus', () => {
+      this.editor.$editor.addClass('ve-focus');
     });
   }
   /**
@@ -81,7 +79,7 @@ const XText = class {
       this.$line1 = $('<p>这里是内容</p>');
       this.$text.append(this.$line1);
       this.editor.selection.createRangeByElem(this.$line1[0]);
-      this.cursorEnd();
+      // this.cursorEnd();
     }
   }
   /**
@@ -90,7 +88,7 @@ const XText = class {
   */
   setHtml(html = '<p><br/></p>') {
     this.$text.html(html);
-    this.cursorEnd();
+    // this.cursorEnd();
   }
   /**
   * 获取内容
@@ -111,7 +109,7 @@ const XText = class {
       const newChilds = this.addPTag(childrens);
       this.$text.append(newChilds);
     }
-    this.cursorEnd();
+    // this.cursorEnd();
   }
   /**
   * 检测是否是 p 标签，不是套个 p 标签
@@ -168,8 +166,8 @@ const XText = class {
       menu.testActive();
     };
     // 按键后保存
-    $textElem.on('keyup', saveRange);
-    if (isMobile) {
+    if (!isMobile) {
+      $textElem.on('keyup', saveRange);
       $textElem.on('mousedown', () => {
         // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
         $textElem.on('mouseleave', saveRange);

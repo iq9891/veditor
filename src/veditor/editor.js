@@ -38,10 +38,10 @@ const VEditor = class {
   create() {
     // 设置层级
     this.setIndex();
-    // 初始化 菜单
-    this.menu = new Menu(this);
     // 内容
     this.text = new Text(this);
+    // 初始化 菜单
+    this.menu = new Menu(this);
     // 选区
     this.selection = new Selection(this);
     // 修复之前的内容

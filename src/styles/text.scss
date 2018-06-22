@@ -6,6 +6,11 @@
   color: $color;
   font-family: 'Microsoft YaHei', 'PingFangSC', 'Helvetica', sans-serif, 'Arial';
 
+  & div {
+    font-size: 1.5em;
+    padding: 10px 0;
+  }
+
   &:focus {
     outline: none;
   }
