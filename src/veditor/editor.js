@@ -51,8 +51,8 @@ const VEditor = class {
     // 选区
     this.selection = new Selection(this);
     // 修复之前的内容
-    if (this.childrens.length > 0) {
-      this.setInsertHtml();
+    if (this.childrens) {
+      this.setHtml(this.childrens);
     } else {
       // 新建一行
       this.text.newline();
@@ -108,7 +108,7 @@ const VEditor = class {
   * 获取之前里面内容
   */
   getChilds() {
-    const children = this.$editor.children();
+    const children = this.$editor.html();
     this.$editor.html('');
     return children;
   }
