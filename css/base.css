@@ -23,6 +23,7 @@ a {
 h2 {
   width: 70%;
   margin: 36px auto 24px;
+  text-align: left;
 }
 
 ul {
@@ -38,7 +39,17 @@ footer {
   text-align: center;
 }
 
-.xe {
-  width: 70%;
-  margin: 0 auto;
+.outer {
+  text-align: center;
+}
+
+.inner {
+  display: inline-block;
+  vertical-align: middle;
+  width: 400px;
+}
+
+.inner li {
+  list-style: none;
+  text-align: left;
 }
