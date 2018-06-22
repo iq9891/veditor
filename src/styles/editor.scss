@@ -67,7 +67,7 @@
   }
 
   & p {
-    font-size: 1.5em;
+    font-size: 1.5em !important;
     padding: 10px 0;
   }
 
@@ -84,5 +84,6 @@
 
   & ul li {
     display: list-item !important;
+    font-size: 1.5em !important;
   }
 }
