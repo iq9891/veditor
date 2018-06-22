@@ -25,7 +25,7 @@ const XMenuBase = class {
 
   create() {
     const { cfg, type, editor } = this;
-    const { lang } = cfg;
+    const { lang } = cfg.menu;
     this.$tem = $(`<a id="ve-${type}${editor.uid}" href="javascript:void('${lang[type]}');" title="${lang[type]}" class="ve-menu-link"><?xml version="1.0" encoding="UTF-8"?></a>`);
     svgFn(this.$tem, type);
   }

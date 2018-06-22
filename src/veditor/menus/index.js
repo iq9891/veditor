@@ -1,6 +1,6 @@
 // XDom 主类
 import $ from '../dom';
-import list from './config';
+import config from './config';
 import svgFn from '../tools/svg';
 /**
 * XMenu 对象
@@ -17,12 +17,11 @@ const XMenu = class {
     this.editor = editor;
     this.$editor = editor.$editor;
     this.cfg = editor.cfg;
-    this.menucfg = this.cfg.menucfg || {};
+    this.menu = this.cfg.menu || {};
     const {
       often = [],
       high = [],
-    } = this.menucfg;
-    this.highText = high.text || '';
+    } = this.menu;
     this.oftenMenus = often || [];
     this.highMenus = high || [];
     this.moreStatus = this.highMenus.length;
@@ -54,9 +53,7 @@ const XMenu = class {
       this.$menu.append(this.$oftenTem);
       this.$often = $(`#ve-menu-often${uid}`);
 
-      this.$highTem = $(`<div id="ve-menu-high${uid}" class="ve-menu-high${menu ? ` ${prefix}${menu}-high` : ''}">
-        <h2 class="ve-menu-title${menu ? ` ${prefix}-menu-title` : ''}">${this.highText}</h2>
-      </div>`);
+      this.$highTem = $(`<div id="ve-menu-high${uid}" class="ve-menu-high${menu ? ` ${prefix}${menu}-high` : ''}"></div>`);
       this.$menu.append(this.$highTem);
       this.$high = $(`#ve-menu-high${uid}`);
     }
@@ -67,15 +64,17 @@ const XMenu = class {
    * @param {Object} editor 编辑器的对象
    */
   renderBtns() {
+    const { menu } = this.cfg;
+    const { list } = menu;
     // 如果有配置
     if (this.moreStatus) {
       const highTems = [];
       const oftenTems = [];
-      this.cfg.menus.forEach((menu) => {
-        const menuBtn = new list[menu](this.editor);
+      list.forEach((menuList) => {
+        const menuBtn = new config[menuList](this.editor);
         const $tem = menuBtn.$tem[0];
         // 如果在高级选项里
-        if (this.highMenus.find(v => v === menu)) {
+        if (this.highMenus.find(v => v === menuList)) {
           highTems.push($tem);
         } else {
           oftenTems.push($tem);
@@ -90,8 +89,8 @@ const XMenu = class {
       this.bindDownEvent();
     } else {
       const tems = [];
-      this.cfg.menus.forEach((menu) => {
-        const menuBtn = new list[menu](this.editor);
+      list.forEach((menuList) => {
+        const menuBtn = new config[menuList](this.editor);
         const $tem = menuBtn.$tem[0];
         tems.push($tem);
         this.btns.push(menuBtn);

@@ -26,7 +26,6 @@ const VEditor = class {
     this.uid = editorId++;
     this.$editor = $(selector);
     this.cfg = config;
-    this.node = null; // 点击的节点，用于元素操作之用，比如加粗
     this.browser = browser(); // 浏览器 UA
     this.isMobile = this.browser.isMobile;
     // 获取之前的内容
@@ -36,12 +35,19 @@ const VEditor = class {
    * 创建编辑器
    */
   create() {
+    const { position } = this.cfg.menu;
     // 设置层级
     this.setIndex();
+    if (position === 'top') {
+      // 初始化 菜单
+      this.menu = new Menu(this);
+    }
     // 内容
     this.text = new Text(this);
-    // 初始化 菜单
-    this.menu = new Menu(this);
+    if (position === 'bottom') {
+      // 初始化 菜单
+      this.menu = new Menu(this);
+    }
     // 选区
     this.selection = new Selection(this);
     // 修复之前的内容

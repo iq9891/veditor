@@ -55,10 +55,6 @@ export default function ajax(option) {
 
   const headers = option.headers || {};
 
-  // if (headers['X-Requested-With'] !== null) {
-  //   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  // }
-
   Object.keys(headers).forEach((item) => {
     if (Object.prototype.hasOwnProperty.call(headers, item) && headers[item] !== null) {
       xhr.setRequestHeader(item, headers[item]);

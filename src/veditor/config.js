@@ -1,23 +1,27 @@
 // xEditor 配置文件
 /* eslint-disable no-alert */
 export default {
-  menus: [ // 配置所显示菜单的功能
-    'bold', // 加粗
-    'underline', // 下划线
-    'italic', // 倾斜
-    'image', // 插入图像
-    'head', // 标题
-    'insertUnorderedList', // 列表
-    'forecolor', //文字颜色
-  ],
-  lang: {
-    bold: '加粗',
-    image: '插入图像',
-    italic: '倾斜',
-    underline: '下划线',
-    head: '标题', // 标题
-    insertUnorderedList: '列表', //列表
-    forecolor: '文字颜色', //文字颜色
+  menu: {
+    list: [ // 配置所显示菜单的功能
+      'bold', // 加粗
+      'underline', // 下划线
+      'italic', // 倾斜
+      'image', // 插入图像
+      'head', // 标题
+      'insertUnorderedList', // 列表
+      'forecolor', //文字颜色
+    ],
+    lang: {
+      bold: '加粗',
+      image: '插入图像',
+      italic: '倾斜',
+      underline: '下划线',
+      head: '标题', // 标题
+      insertUnorderedList: '列表', //列表
+      forecolor: '文字颜色', //文字颜色
+    },
+    high: [], // 当菜单够多，需要隐藏的时候
+    position: 'bottom', // 当菜在上面
   },
   color: '#ff4949',
   head: {
