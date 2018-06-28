@@ -180,7 +180,7 @@ const XText = class {
     }
   }
   // 处理拖拽文件
-  handleFiles(files, self) {
+  handleFiles(files, self, callback = () => {}) {
     const reader = new FileReader();
     const key = 0;
     const isImage = files[key].type.indexOf('image') > -1;
@@ -197,12 +197,12 @@ const XText = class {
       // 如果是 图片
       if (isImage) {
         if (type === 'base64') {
-          Upload.base64(files, self);
+          Upload.base64(files, self, 'images', callback);
         } else if (type === 'ajax') {
-          Upload.ajax(files, self);
+          Upload.ajax(files, self, callback);
         }
       } else if (isText) {
-        Upload.base64(files, self, 'text');
+        Upload.base64(files, self, 'text', callback);
       }
     }, false);
   }

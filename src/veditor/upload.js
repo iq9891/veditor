@@ -6,7 +6,7 @@ class Upload {
    * image -> base64
    * @param {Object} files 文件对象
    */
-  static base64(files, self, type = 'image') {
+  static base64(files, self, type = 'image', callback = () => {}) {
     Object.keys(files).forEach((file) => {
       const reader = new FileReader();
       const isImage = type === 'image';
@@ -16,7 +16,7 @@ class Upload {
         reader.readAsText(files[file]);
       }
       reader.onload = () => {
-        inset(reader.result, self, isImage);
+        inset(reader.result, self, isImage, callback);
       };
     });
   }
@@ -24,7 +24,7 @@ class Upload {
    * image -> ajax
    * @param {Object} files 文件对象
    */
-  static ajax(files, self) {
+  static ajax(files, self, callback = () => {}) {
     const { image, debug, alert } = self.editor.cfg;
     const {
       ajaxurl,
@@ -54,6 +54,8 @@ class Upload {
                 error(err, response, files[now]);
               },
             });
+          } else {
+            callback();
           }
         };
         recursionAjax(files.length - 1);

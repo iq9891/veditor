@@ -30,9 +30,12 @@ class XMenuImage extends Base {
     this.$file = $(`#ve-menu-file${uid}`);
     // 添加上传文件按钮
     this.$file.on('change', (ev) => {
+      this.$item.addClass('ve-menu-link-loading');
       editor.text.$text.append(editor.text.addPTag());
       editor.text.cursorEnd();
-      editor.text.handleFiles(ev.target.files, this);
+      editor.text.handleFiles(ev.target.files, this, () => {
+        this.$item.removeClass('ve-menu-link-loading');
+      });
     });
   }
 }

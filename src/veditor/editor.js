@@ -146,7 +146,7 @@ const VEditor = class {
       this.browser = browser(); // 浏览器 UA
       this.isMobile = this.browser.isMobile;
     }, true);
-    document.oncontextmenu = () => false;
+    // document.oncontextmenu = () => false;
   }
 };
 /**
