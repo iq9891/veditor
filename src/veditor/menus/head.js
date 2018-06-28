@@ -34,12 +34,12 @@ class XMenuHead extends Base {
   }
   // 是否是选中
   isActive() {
-    const { type, editor } = this;
+    const { cfg, type, editor } = this;
     const $item = $(`#ve-${type}${editor.uid}`);
     const { selection } = editor;
     const $ele = selection.getSelectionContainerElem(selection.getRange());
-    console.log($ele[0].tagName, $ele.parent()[0].tagName, searchElement($ele, 'H3'), '$ele[0].tagName');
-    if ($ele.length && /H/.test($ele[0].tagName)) {
+
+    if (searchElement($ele, cfg.head.size.toUpperCase()) || ($ele.length && /H/.test($ele[0].tagName))) {
       $item.addClass('ve-menu-link-active');
     } else {
       $item.removeClass('ve-menu-link-active');

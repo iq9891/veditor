@@ -61,10 +61,14 @@ const XText = class {
   eventFn() {
     // 点击选中操作的文字
     this.$text.on('blur', () => {
-      this.editor.$editor.removeClass('ve-focus');
+      if (this.isMobile) {
+        this.editor.$editor.removeClass('ve-focus');
+      }
     });
     this.$text.on('focus', () => {
-      this.editor.$editor.addClass('ve-focus');
+      if (this.isMobile) {
+        this.editor.$editor.addClass('ve-focus');
+      }
     });
   }
   /**

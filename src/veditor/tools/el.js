@@ -27,6 +27,9 @@ export function getElementTop(element) {
  */
 export function searchElement(element, tagName) {
   const searchEle = (ele, tag) => {
+    if (!ele) {
+      return false;
+    }
     const eleParent = ele.parent();
     if (eleParent.length) {
       const eleParentTag = eleParent[0].tagName;
@@ -36,7 +39,7 @@ export function searchElement(element, tagName) {
       if (eleParentTag === tag) {
         return true;
       }
-      return searchEle();
+      return searchEle(eleParent, tag);
     }
     return false;
   };
