@@ -8,7 +8,7 @@
 
 ![GitHub language count](https://img.shields.io/github/languages/count/@iq9891/veditor.svg?style=flat-square)
 
-[![Sauce Labs Test Status (for master branch)](https://badges.herokuapp.com/browsers?android=6&iphone=8&style=flat-square)](https://saucelabs.com/u/_wmhilton)
+[![Sauce Labs Test Status (for master branch)](https://badges.herokuapp.com/browsers?android=6&iphone=8&googlechrome=7&firefox=7&microsoftedge=10&iexplore=9&safari=10.10&style=flat-square)](https://saucelabs.com/u/_wmhilton)
 
 [立即体验](https://output.jsbin.com/yowanag)
 
